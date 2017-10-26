@@ -13,23 +13,30 @@ cols to skip:
 result:
 id,state,stop_date,stop_time,location_raw,county_name,county_fips,driver_gender,driver_age,driver_race,violation,search_conducted,search_type,stop_outcome,is_arrested,officer_id,officer_gender,officer_age,officer_race,officer_rank,out_of_state
 
-
-CREATE TABLE FL_stops (
-    id TEXT PRIMARY KEY,
+CREATE TEMP TABLE FL_stopsplus (
+    id TEXT,
+    state TEXT,
     stop_date DATE,
     stop_time TIME,
     location_raw TEXT,
     county_name  TEXT,
     county_fips INTEGER,
+    fine_grained_location TEXT,
+    police_department TEXT,
     driver_gender CHAR(1),
-    driver_age INT,
+    driver_age_raw TEXT,
+    driver_age FLOAT,
+    driver_race_raw TEXT,
     driver_race TEXT,
+    violation_raw TEXT,
     violation TEXT,
     search_conducted BOOL,
+    search_type_raw TEXT,
     search_type TEXT,
+    contraband_found TEXT,
     stop_outcome TEXT,
     is_arrested BOOL,
-    officer_id INT,
+    officer_id TEXT,
     officer_gender CHAR(1),
     officer_age INT,
     officer_race TEXT,
@@ -37,4 +44,9 @@ CREATE TABLE FL_stops (
     out_of_state BOOL
 );
 
-\copy FL_stops (id,stop_date,stop_time,location_raw,county_name,county_fips,driver_gender,driver_age,driver_race,violation,search_conducted,search_type,stop_outcome,is_arrested,officer_id,officer_gender,officer_age,officer_race,officer_rank,out_of_state) FROM 'FL-clean.csv' DELIMITERS ',' CSV HEADER;
+CREATE TABLE FL_stops AS (SELECT id,stop_date,stop_time,location_raw,county_name,county_fips,driver_gender,driver_age,driver_race,violation,search_conducted,search_type,stop_outcome,is_arrested,officer_id,officer_gender,officer_age,officer_race,officer_rank,out_of_state from FL_stopsplus);
+
+
+
+
+
