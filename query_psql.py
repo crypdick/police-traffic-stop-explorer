@@ -66,31 +66,7 @@ class PoliceQuery:
                         clause_str += " AND "
         return clause_str
 
-```
-SELECT county_name, count(*) FROM fl_stops WHERE
---user specified
-stop_date > ___________ AND
-stop_date < ___________ AND
-county_name = '________' AND
-driver_gender = '' AND
-driver_age > ____________ AND
-driver_age < _____________ AND
-driver_race IN () AND
-violation IN () AND
-seach_conducted = _______ AND
-search_type IN () AND
-stop_outcome IN () AND
-officer_gender = '' AND
-officer_age > _______ AND
-officer_age < _______ AND
-officer_race IN () AND
-officer_rank IN AND
-out_of_state = __________
---end user specifications
-group by county_name
-order by county_name;
-
-from which we get the per-county counts, and then we run the same query without the GROUP BY part to get the count for the whole state with the same specs, then we divide the two to get the percentage for each county. The arithmetic part could be included in the SQL, but would probably be simpler just to do on the back end in python.
+# from which we get the per-county counts, and then we run the same query without the GROUP BY part to get the count for the whole state with the same specs, then we divide the two to get the percentage for each county. The arithmetic part could be included in the SQL, but would probably be simpler just to do on the back end in python.
 ```
 
 
