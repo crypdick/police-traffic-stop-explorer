@@ -49,4 +49,32 @@ CREATE TABLE FL_stops AS (SELECT id,stop_date,stop_time,location_raw,county_name
 
 
 
+\copy FL_stops (id,stop_date,stop_time,location_raw,county_name,county_fips,driver_gender,driver_age,driver_race,violation,search_conducted,search_type,stop_outcome,is_arrested,officer_id,officer_gender,officer_age,officer_race,officer_rank,out_of_state) FROM 'FL-clean.csv' DELIMITERS ',' CSV HEADER;
 
+CREATE TABLE stops AS SELECT id stop_id, officer_id, officer_age, stop_date, stop_time, county_fips, violation, driver_gender, cast(driver_age AS INTEGER) driver_age, driver_race, search_conducted, search_type, stop_outcome, is_arrested, out_of_state FROM fl_stops;
+
+CREATE TABLE officers AS SELECT DISTINCT officer_id, officer_gender, officer_race FROM fl_stops;
+
+CREATE TABLE counties AS SELECT DISTINCT county_fips, county_name FROM fl_stops;
+
+ALTER TABLE stops ADD PRIMARY KEY (stop_id);
+
+ALTER TABLE officers ADD PRIMARY KEY (officer_id);
+###This command threw an error because of duplicate officer_ids. After inspection, I noticed that:
+##1) The maximum number of instances of any ID was 2
+##2) all duplications were missing either race, gender or both from one entry, but included extra (but not always all) information in the second entry
+##I decided to recreate the officers table with the assumption that the records containing empty columns were simply clerical mistakes and did not 
+##represent separate officers from their more complete counterparts
+
+DROP TABLE officers;
+CREATE TABLE officers AS SELECT DISTINCT officer_id, max(officer_gender), max(officer_race) FROM fl_stops;
+###This command didn't work because max can't be called twice in one select query. This may be best addressed with temp tables:
+##A table of all officers with all non-null columns
+##A table of all officers with missing gender whose id is not in the previous table
+##A table of all officers with missing race whose id is not in either previous table
+##A table of all offices with missing race and gender whose id is not in any previous table
+##Finally union all these temp tables to get the officer table wherein every id in the table contains maximum information about the given officer
+##Actually this would still run into issues if one entry has race but not gender and the other has gender but not race...
+##Maybe try using cases, ala
+
+SELECT DISTINCT officer_id CASE IF a.offer_gender != '' THEN a.officer_gender ELSE b.officer_gender END CASE...
