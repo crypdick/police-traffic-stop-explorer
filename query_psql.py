@@ -41,7 +41,7 @@ class PoliceQuery:
 
     def wheres(self, query_dict):
         lines = []
-        for key, val in query_dict['wheres'].items():
+        for key, val in query_dict['WHERES'].items():
             if val is None:
                 pass
             if "_MIN" in key:
