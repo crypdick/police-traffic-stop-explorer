@@ -75,6 +75,6 @@ class PoliceQuery:
 
 if __name__ == '__main__':
     q = PoliceQuery()
-    my_dict = {'wheres': {'driver_age_MIN': 39}}
+    my_dict = {'WHERES': {'driver_age_MIN': 39}}
     results = q.make_query(my_dict)
     print(results)
