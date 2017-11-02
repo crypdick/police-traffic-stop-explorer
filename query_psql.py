@@ -53,7 +53,7 @@ class PoliceQuery:
             else:
                 lines.append("{}{ = }".format(key, val))
 
-        where_clause = self.clause_chainer(lines)
+        where_clause = "WHERE " + self.clause_chainer(lines)
 
         return where_clause
 
