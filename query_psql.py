@@ -76,5 +76,6 @@ class PoliceQuery:
 if __name__ == '__main__':
     q = PoliceQuery()
     my_dict = {'WHERES': {'driver_age_MIN': 39}}
-    results = q.make_query(my_dict)
+    print("QUERY: ", q.make_query(my_dict), "\n \n")
+    results = q.query_psql(my_dict)
     print(results)
