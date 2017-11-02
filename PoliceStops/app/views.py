@@ -1,7 +1,7 @@
 import flask
 from flask import render_template, request
 from app import app
-#from viz import create_map
+import viz
 
 
 @app.route('/')
@@ -23,6 +23,10 @@ def index():
     officer_race_TUPLE = request.args.getlist('officer_race_TUPLE', type=str)
     officer_rank_TUPLE = request.args.getlist('officer_rank_TUPLE', type=str)
     out_of_state = request.args.get('out_of_state', default=None, type=bool)
+    #count_dict = generateQuery(stop_date_MIN, stop_date_MAX, driver_gender, driver_age_MIN, driver_age_MAX, \
+    #driver_race_TUPLE, violation_TUPLE, search_conducted, search_type_TUPLE, stop_outcome_TUPLE, \
+    #officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  officer_rank_TUPLE,  out_of_state)
+    viz.generate()#viz.generate(count_dict)
     #return str(stop_date_MIN) + str(stop_date_MAX) + str(driver_gender) + str(driver_age_MIN) + str(driver_age_MAX) + \
     #    str(driver_race_TUPLE) + str(violation_TUPLE) + str(search_conducted) + str(search_type_TUPLE) + \
     #    str(stop_outcome_TUPLE) + str(officer_gender) + str(officer_age_MIN) + str(officer_age_MAX) + \

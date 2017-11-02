@@ -1,5 +1,9 @@
 <html>
   <head>
+    <!-- <script>
+      var _theframe = document.getElementById("theframe");
+      _theframe.contentWindow.location.href = _theframe.src;
+    </script> -->
     <title>Police Stops</title>
   </head>
   <body>
@@ -78,6 +82,8 @@ officer_rank_TUPLE
   Probably skip
 -->
       <br><br>
-      <iframe src="{{ url_for('show_map') }}" width="100%" height="480"></iframe>
+      <!-- <iframe src="{{ url_for('show_map') }}" id="theframe" width="100%" height="480"></iframe> -->
+      {% include "map.html" %}
+
   </body>
 </html>

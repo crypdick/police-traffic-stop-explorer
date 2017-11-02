@@ -1,4 +1,3 @@
-#!/Users/duffrind/miniconda3/envs/police/bin/python
+#!/Users/duffrind/miniconda3/bin/python
 from app import app
 app.run(debug=True)
-
