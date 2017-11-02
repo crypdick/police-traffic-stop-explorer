@@ -1,42 +1,47 @@
 from secret_connect import secret_connection
 
 class PoliceQuery:
-    def __init__(self, query_dict):
-        self.query_dict = query_dict
+    def __init__(self):
         self.conn = secret_connection()
         self.cur = self.conn.cursor()
-        self.desired_fields = []
+        # self.desired_fields = []
         # for not none in dict, append to desired fields
 
-    def query_psql(self):
-        query = self.construct_query()
+    def query_psql(self, query_dict):
+        query = self.make_query(query_dict)
         self.cur.execute(query)
-        num_titles = self.cur.rowcount
+        # num_titles = self.cur.rowcount
 
         return self.cur.fetchall()
 
-    def construct_query(self):
+    def make_query(self, query_dict):
         query = ''
-        query += self.selector()
-        # TODO targets
-        # TODO targ_lists
-        if self.query_dict["WHERES"] is not None:
-            query += self.wheres()
+        query += self.selector(query_dict)
+        query += "FROM FL_stops "
+        if query_dict["WHERES"] is not None:
+            query += self.wheres(query_dict)
 
         query += self.grouper()
 
         return query+";"
 
-    def selector(self):
+    def selector(self, query_dict):
         select_clause = "SELECT "
+        # select_type = self.query_dict['select']
+        # selector_funcs = {'totals': self._select_totals}
+        # select_clause += selector_funcs[select_type]
+        select_clause += self._select_totals()
         return select_clause
+
+    def _select_totals(self):
+        return "violation, count(*) "
 
     def grouper(self):
         return " GROUP BY county_name"
 
-    def wheres(self):
+    def wheres(self, query_dict):
         lines = []
-        for key, val in self.query_dict['wheres'].items():
+        for key, val in query_dict['wheres'].items():
             if val is None:
                 pass
             if "_MIN" in key:
@@ -53,7 +58,7 @@ class PoliceQuery:
         return where_clause
 
     def clause_chainer(self, clause_list):
-        if len(clause_list) == 0
+        if len(clause_list) == 0:
             raise Exception("clause is empty, should have at least 1 item")
         elif len(clause_list) == 1:
             clause_str = clause_list[0]
@@ -67,6 +72,9 @@ class PoliceQuery:
         return clause_str
 
 # from which we get the per-county counts, and then we run the same query without the GROUP BY part to get the count for the whole state with the same specs, then we divide the two to get the percentage for each county. The arithmetic part could be included in the SQL, but would probably be simpler just to do on the back end in python.
-```
 
-
+if __name__ == '__main__':
+    q = PoliceQuery()
+    my_dict = {'wheres': {'driver_age_MIN': 39}}
+    results = q.make_query(my_dict)
+    print(results)
