@@ -34,7 +34,7 @@ class PoliceQuery:
         return select_clause
 
     def _select_totals(self):
-        return "county_name, violation, count(*) "
+        return "county_name, count(violation) violation_total "
 
     def grouper(self):
         return " GROUP BY county_name"
