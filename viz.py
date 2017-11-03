@@ -1,7 +1,6 @@
 import os
 import folium
 import json
-import pandas as pd
 from branca.colormap import linear
 
 def generate(count_dict = {'Charlotte County': 100, 'Seminole County': 100}):
