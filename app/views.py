@@ -123,7 +123,7 @@ officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  office
     query = query + ' group by county_name order by county_name;'
     cur.execute(query)
     counties_counts = cur.fetchall()
-    countie_dict = dict(counties_counts)
+    counties_dict = dict(counties_counts)
     return counties_dict
 
 @app.route('/')
