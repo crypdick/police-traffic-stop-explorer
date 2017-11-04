@@ -56,7 +56,7 @@ officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  office
             add_where = False
         else:
             query = query + ' AND'
-        query = query + ' violation IN ' + violation_TUPLE
+        query = query + ' violation SIMILAR TO ' + '%(' + '|'.join(violation_TUPLE) + ')%'
     if search_conducted is not None:
         if add_where:
             query = query + ' where'
