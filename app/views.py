@@ -49,7 +49,7 @@ officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  office
             add_where = False
         else:
             query = query + ' AND'
-        query = query + " driver_race IN '(" + ','.join(driver_race_TUPLE) + ")'"
+        query = query + " driver_race IN (" + ','.join(["'" + x + "'" for x in driver_race_TUPLE]) + ")"
     if len(violation_TUPLE) > 0:
         if add_where:
             query = query + ' where'
@@ -63,21 +63,21 @@ officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  office
             add_where = False
         else:
             query = query + ' AND'
-        query = query + ' search_conducted = ' + str(search_conducted)
+        query = query + " search_conducted = '" + str(search_conducted) + "'"
     if len(search_type_TUPLE) > 0:
         if add_where:
             query = query + ' where'
             add_where = False
         else:
             query = query + ' AND'
-        query = query + " search_type IN '(" + ','.join(search_type_TUPLE) + ")'"
+        query = query + " search_type IN (" + ','.join(["'" + x + "'" for x in search_type_TUPLE]) + ")"
     if len(stop_outcome_TUPLE) > 0:
         if add_where:
             query = query + ' where'
             add_where = False
         else:
             query = query + ' AND'
-        query = query + " stop_outcome IN '(" + ','.join(stop_outcome_TUPLE) + ")'"
+        query = query + " stop_outcome IN (" + ','.join(["'" + x + "'" for x in stop_outcome_TUPLE]) + ")"
     if officer_gender is not None and len(officer_gender) > 0:
         if add_where:
             query = query + ' where'
@@ -105,21 +105,21 @@ officer_gender,  officer_age_MIN,  officer_age_MAX,  officer_race_TUPLE,  office
             add_where = False
         else:
             query = query + ' AND'
-        query = query + " officer_race IN '(" + ','.join(officer_race_TUPLE) + ")'"
+        query = query + " officer_race IN (" + ','.join(["'" + x + "'" for x in officer_race_TUPLE]) + ")"
     if len(officer_rank_TUPLE) > 0:
         if add_where:
             query = query + ' where'
             add_where = False
         else:
             query = query + ' AND'
-        query = query + " officer_rank IN '(" + ','.join(officer_rank_TUPLE) +  ")'"
+        query = query + " officer_rank IN (" + ','.join(["'" + x + "'" for x in officer_rank_TUPLE]) +  ")"
     if out_of_state is not None and len(out_of_state) > 0:
         if add_where:
             query = query + ' where'
             add_where = False
         else:
             query = query + ' AND'
-        query = query + ' out_of_state = ' + str(out_of_state)
+        query = query + " out_of_state = '" + str(out_of_state) + "'"
     query = query + ' group by county_name order by county_name;'
     print(query)
     cur.execute(query)
